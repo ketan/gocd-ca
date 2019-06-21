@@ -1,0 +1,18 @@
+version: '3.1'
+services:
+  nginx:
+    build:
+      context: reverse-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - gocd-server
+    volumes:
+      - "./pki:/etc/ssl/pki"
+  gocd-server:
+    image: gocdexperimental/gocd-server:v19.6.0-9306
+    expose:
+      # 8153 just needs to be exposed for the nginx reverse-proxy
+      - "8153"
+
